@@ -187,7 +187,7 @@ function renderPost(p) {
     <div class="post-content">${escapeHtml(p.content)}</div>
 
     ${p.image_url
-      ? `<img class="post-image" src="http://localhost:5000${p.image_url}" alt="Post image">`
+      ? `<img class="post-image" src="${BACKEND_URL}${p.image_url}" alt="Post image">`
       : ''}
 
     <!-- Action bar -->

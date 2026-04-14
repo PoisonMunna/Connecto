@@ -1,8 +1,12 @@
 // ============================================================
 //  js/app.js  –  Shared utilities used across all pages
+//
+//  ⚙️  PRODUCTION: change BACKEND_URL below to your server URL
+//     e.g. 'https://your-backend.onrender.com'
 // ============================================================
 
-const API = 'http://localhost:5000/api';   // Change if backend runs elsewhere
+const BACKEND_URL = 'http://localhost:5000';          // ← change for production
+const API         = `${BACKEND_URL}/api`;
 
 /* ── Token helpers ─────────────────────────────────────────── */
 const getToken  = ()         => localStorage.getItem('token');
@@ -107,7 +111,7 @@ function avatarHTML(user, size = '') {
   const sizeClass = size ? `avatar-${size}` : '';
   // profile_pic is either a /uploads/... path or "default.png"
   if (user.profile_pic && user.profile_pic !== 'default.png') {
-    return `<img src="http://localhost:5000${user.profile_pic}"
+    return `<img src="${BACKEND_URL}${user.profile_pic}"
                  class="avatar ${sizeClass}"
                  alt="${user.username}">`;
   }

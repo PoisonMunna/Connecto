@@ -6,11 +6,9 @@ import api, { timeAgo } from '../api/api';
 import Avatar from '../components/Avatar';
 import Spinner from '../components/Spinner';
 import { useToast } from '../context/ToastContext';
+import { BLUETICK_URL as BLUETICK } from '../config';  // ← single config, no hardcoded URLs
 
 const COLORS = ['#6366f1', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6'];
-
-// Blue tick image served by backend
-const BLUETICK = 'http://localhost:5000/uploads/bluetick.png';
 
 // ── Shared components ─────────────────────────────────────────
 

@@ -6,14 +6,7 @@ import api, { escapeHtml } from '../api/api';
 import Avatar from '../components/Avatar';
 import PostCard from '../components/PostCard';
 import Spinner from '../components/Spinner';
-
-const BACKEND = 'http://localhost:5000';
-
-function imgSrc(path) {
-  if (!path || path === 'default.png') return null;
-  if (path.startsWith('http')) return path;
-  return `${BACKEND}${path}`;
-}
+import { backendUrl as imgSrc } from '../config';  // ← single config, no hardcoded URLs
 
 export default function ProfilePage() {
   const { username }  = useParams();

@@ -5,6 +5,7 @@ import { useToast } from '../context/ToastContext';
 import api, { timeAgo, escapeHtml } from '../api/api';
 import Avatar from './Avatar';
 import CommentSection from './CommentSection';
+import { backendUrl } from '../config';  // ← single config, no hardcoded URLs
 
 export default function PostCard({ post: initialPost, onDelete }) {
   const { user }      = useAuth();
@@ -100,7 +101,7 @@ export default function PostCard({ post: initialPost, onDelete }) {
       {post.image_url && (
         <div className="px-4 pb-3">
           <img
-            src={`http://localhost:5000${post.image_url}`}
+            src={backendUrl(post.image_url)}
             alt="Post"
             onError={(e) => { e.target.style.display = 'none'; }}
             className="w-full max-h-[480px] object-cover rounded-xl

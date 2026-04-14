@@ -151,7 +151,7 @@ function renderPosts(posts) {
     <div class="card post-card" id="post-${p.id}">
       <div class="post-content">${escapeHtml(p.content)}</div>
       ${p.image_url
-        ? `<img class="post-image" src="http://localhost:5000${p.image_url}" alt="">`
+        ? `<img class="post-image" src="${BACKEND_URL}${p.image_url}" alt="">`
         : ''}
       <div class="post-actions">
         <button class="action-btn ${p.liked_by_me ? 'liked' : ''}"
