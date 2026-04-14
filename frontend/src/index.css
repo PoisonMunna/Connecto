@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+  /* ── Glass card ── */
+  .glass {
+    @apply bg-white/80 backdrop-blur-md border border-slate-200 rounded-2xl shadow-sm
+           dark:bg-slate-800/60 dark:border-slate-700/50 dark:shadow-card;
+  }
+  .glass-sm {
+    @apply bg-white/60 backdrop-blur-sm border border-slate-200/80 rounded-xl
+           dark:bg-slate-800/40 dark:border-slate-700/40;
+  }
+
+  /* ── Gradient brand button ── */
+  .btn-brand {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           bg-gradient-brand text-white font-semibold rounded-xl
+           shadow-glow transition-all duration-200
+           hover:shadow-glow-lg hover:scale-[1.03] active:scale-[.97];
+  }
+
+  /* ── Ghost / outline button ── */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
+           border border-slate-300 text-slate-600 font-semibold rounded-xl
+           transition-all duration-200 active:scale-[.97]
+           hover:border-blue-500 hover:text-blue-600
+           dark:border-slate-600 dark:text-slate-300
+           dark:hover:border-blue-500 dark:hover:text-blue-400;
+  }
+
+  /* ── Input ── */
+  .input {
+    @apply w-full px-4 py-2.5 rounded-xl text-sm outline-none transition-all duration-200
+           bg-white border border-slate-300 text-slate-900 placeholder-slate-400
+           focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20
+           dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500
+           dark:focus:border-blue-500;
+  }
+
+  /* ── Nav link ── */
+  .nav-link {
+    @apply flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium
+           text-slate-600 transition-all duration-200
+           hover:bg-slate-100 hover:text-slate-900
+           dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100;
+  }
+  .nav-link.active {
+    @apply bg-slate-100 text-blue-600 dark:bg-slate-800 dark:text-blue-400;
+  }
+
+  /* ── Post card ── */
+  .post-card {
+    @apply mb-4 overflow-hidden rounded-2xl transition-all duration-300
+           bg-white border border-slate-200 shadow-sm
+           hover:border-slate-300 hover:shadow-md
+           dark:bg-slate-800/60 dark:border-slate-700/50 dark:shadow-card
+           dark:hover:border-slate-600/70 dark:hover:shadow-card-hover;
+  }
+
+  /* ── Post action button ── */
+  .action-btn {
+    @apply flex items-center justify-center gap-2 flex-1 py-2 rounded-xl
+           text-sm font-semibold text-slate-500 transition-all duration-200
+           hover:bg-slate-100 hover:text-slate-700 active:scale-95
+           dark:text-slate-400 dark:hover:bg-slate-700/60 dark:hover:text-slate-200;
+  }
+  .action-btn.liked {
+    @apply text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300;
+  }
+
+  /* ── Avatar ── */
+  .avatar {
+    @apply w-10 h-10 rounded-full object-cover flex-shrink-0
+           ring-2 ring-slate-200 dark:ring-slate-700;
+  }
+  .avatar-sm { @apply w-8 h-8; }
+  .avatar-lg { @apply w-20 h-20 ring-4; }
+
+  /* Avatar initials fallback */
+  .avatar-init {
+    @apply flex items-center justify-center font-bold text-white
+           bg-gradient-brand rounded-full flex-shrink-0 w-10 h-10;
+  }
+  .avatar-init.avatar-sm { @apply w-8 h-8 text-sm; }
+  .avatar-init.avatar-lg { @apply w-20 h-20 text-2xl; }
+
+  /* ── Tab button ── */
+  .tab-btn {
+    @apply px-5 py-2.5 text-sm font-semibold rounded-t-lg
+           border-b-2 border-transparent -mb-px transition-all duration-200
+           text-slate-500 hover:text-slate-700
+           dark:text-slate-400 dark:hover:text-slate-200;
+  }
+  .tab-btn.active {
+    @apply text-blue-600 border-blue-500 dark:text-blue-400;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { @apply bg-slate-100 dark:bg-slate-900; }
+::-webkit-scrollbar-thumb { @apply bg-slate-300 dark:bg-slate-700 rounded; }
+::-webkit-scrollbar-thumb:hover { @apply bg-slate-400 dark:bg-slate-600; }
+
+/* ── Smooth theme transition on key structural elements only ── */
+body, header, footer, main, nav, aside, section,
+.glass, .glass-sm, .post-card, .action-btn, .btn-ghost, .input, .nav-link {
+  transition-property: background-color, border-color, color;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}

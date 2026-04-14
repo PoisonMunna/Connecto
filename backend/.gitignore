@@ -1,0 +1,9 @@
+.env
+node_modules
+
+# Ignore all user-uploaded files inside uploads/
+uploads/*
+
+# BUT keep these files — they are required by the app
+!uploads/bluetick.png
+!uploads/.gitkeep

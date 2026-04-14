@@ -1,0 +1,4 @@
+# This file ensures the uploads/ directory is tracked by Git.
+# Actual user-uploaded files (profile pics, post images, cover photos)
+# are ignored by .gitignore and are NOT committed to the repository.
+# The uploads/ folder is created automatically when users upload files.
