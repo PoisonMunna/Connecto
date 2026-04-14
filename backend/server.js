@@ -9,7 +9,21 @@ const path     = require('path');
 const app = express();
 
 // ── Middleware ────────────────────────────────────────────
-app.use(cors());                          // Allow cross-origin requests
+// CORS_ORIGIN in .env controls which frontend is allowed.
+// Dev: http://localhost:5173  |  Prod: https://your-app.web.app
+// You can comma-separate multiple origins:  http://localhost:5173,https://your-app.web.app
+const rawOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',').map((o) => o.trim());
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no Origin header (Vite proxy, curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (rawOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin "${origin}" not allowed`));
+  },
+  credentials: true,
+}));
 app.use(express.json());                  // Parse incoming JSON bodies
 app.use(express.urlencoded({ extended: true }));
 

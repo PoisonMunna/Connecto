@@ -113,23 +113,26 @@ export default function AuthPage() {
     } finally { setLoading(false); }
   }
 
-  // ── Google Sign-In (all tabs) ─────────────────────────────
+  // ── Google Sign-In (popup-based) ──────────────────────────
+  // signInWithGoogle() opens a Google popup and returns { idToken, ... }
+  // directly — no redirect, no page reload needed.
   async function handleGoogleLogin() {
     setLoading(true);
     try {
-      const { idToken } = await signInWithGoogle();
-      const { data }    = await api.post('/auth/google', { idToken });
+      const googleResult = await signInWithGoogle();
+      const { data }     = await api.post('/auth/google', { idToken: googleResult.idToken });
       login(data.token, data.user);
       showToast('Signed in with Google! 🚀', 'success');
       navigate(data.user?.is_admin ? '/admin' : '/feed');
     } catch (err) {
-      // User closed the popup — silent
-      if (err.code === 'auth/popup-closed-by-user' ||
-          err.code === 'auth/cancelled-popup-request') {
-        setLoading(false); return;
+      // Silently ignore if user just closed the popup
+      const code = err?.code || '';
+      if (!code.includes('popup-closed-by-user') && !code.includes('cancelled-popup-request')) {
+        showToast(err.response?.data?.error || 'Google sign-in failed. Try again.', 'error');
       }
-      showToast(err.response?.data?.error || 'Google sign-in failed.', 'error');
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   }
 
   const features = ['🌐 Global Feed', '💬 Real-time Comments', '🔔 Notifications', '👥 Follow Anyone'];
@@ -232,7 +235,6 @@ export default function AuthPage() {
             {/* ══════════════ LOGIN TAB ══════════════ */}
             {tab === 'login' && (
               <div className="animate-fade-in">
-                {/* Google button — top */}
                 <GoogleBtn onClick={handleGoogleLogin} disabled={loading} />
                 <GoogleDivider />
 
@@ -262,7 +264,6 @@ export default function AuthPage() {
             {/* ══════════════ REGISTER TAB ══════════════ */}
             {tab === 'register' && (
               <div className="animate-fade-in">
-                {/* Google button — top */}
                 <GoogleBtn onClick={handleGoogleLogin} disabled={loading} />
                 <GoogleDivider />
 

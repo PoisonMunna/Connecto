@@ -1,1 +1,3 @@
 node_modules
+.env
+# .env.example is intentionally committed — it has no real secrets

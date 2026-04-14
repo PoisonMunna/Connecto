@@ -35,10 +35,23 @@ export default api;
 
 // ── Helpers ───────────────────────────────────────────────────
 export const getToken = () => localStorage.getItem('token');
-export const getUser  = () => JSON.parse(localStorage.getItem('user') || 'null');
+export const getUser  = () => {
+  try {
+    const raw = localStorage.getItem('user');
+    // Treat missing, literal "undefined", or empty string as no user
+    if (!raw || raw === 'undefined') return null;
+    return JSON.parse(raw);
+  } catch {
+    // Corrupt value — clear it so the app doesn't crash on every reload
+    localStorage.removeItem('user');
+    return null;
+  }
+};
 export const saveAuth = (token, user) => {
-  localStorage.setItem('token', token);
-  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', token ?? '');
+  // Only store user if it's a real object — never store undefined/null as string
+  if (user != null) localStorage.setItem('user', JSON.stringify(user));
+  else              localStorage.removeItem('user');
 };
 export const clearAuth = () => {
   localStorage.removeItem('token');

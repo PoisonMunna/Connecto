@@ -1,9 +1,9 @@
 // ============================================================
 //  src/firebase.js  –  Firebase configuration
 // ============================================================
-import { initializeApp }                              from 'firebase/app';
+import { initializeApp }                               from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getAnalytics, isSupported }                  from 'firebase/analytics';
+import { getAnalytics, isSupported }                   from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey:            "AIzaSyAHYNHRuRKcpRtksRqx6OId-ODBGtyjVwI",
@@ -23,14 +23,13 @@ const provider = new GoogleAuthProvider();
 provider.setCustomParameters({ prompt: 'select_account' });
 
 // Initialize Analytics only if the browser supports it (safe fallback)
-isSupported().then((yes) => {
-  if (yes) getAnalytics(app);
-});
+isSupported().then((yes) => { if (yes) getAnalytics(app); });
 
 export { auth, provider };
 
-// ── Google Sign-In helper ─────────────────────────────────
-// Returns { idToken } — send this to backend for verification
+// ── Google Sign-In (popup-based) ──────────────────────────────
+// Opens a Google account picker popup. Returns { idToken, displayName,
+// email, photoURL } on success, or throws on error/cancel.
 export async function signInWithGoogle() {
   const result  = await signInWithPopup(auth, provider);
   const idToken = await result.user.getIdToken();
