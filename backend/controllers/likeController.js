@@ -34,8 +34,8 @@ exports.toggleLike = async (req, res) => {
       // Create notification for post owner (skip if user likes own post)
       if (post[0].user_id !== userId) {
         await db.query(
-          'INSERT INTO notifications (user_id, from_user, type, post_id) VALUES (?, ?, "like", ?)',
-          [post[0].user_id, userId, postId]
+          'INSERT INTO notifications (user_id, from_user, type, post_id) VALUES (?, ?, ?, ?)',
+          [post[0].user_id, userId, 'like', postId]
         );
       }
 
@@ -45,7 +45,7 @@ exports.toggleLike = async (req, res) => {
       return res.json({ message: 'Post liked!', liked: true, like_count: count });
     }
   } catch (err) {
-    console.error('Like toggle error:', err);
+    console.error('Like toggle error:', err.message);
     res.status(500).json({ error: 'Could not process like.' });
   }
 };
