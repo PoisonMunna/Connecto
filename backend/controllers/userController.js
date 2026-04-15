@@ -88,8 +88,8 @@ exports.updateProfile = async (req, res) => {
     let params = [bio ?? ''];
 
     if (username !== undefined) { query += ', username = ?'; params.push(username.trim()); }
-    if (profilePicFile)         { query += ', profile_pic = ?'; params.push(`/uploads/${profilePicFile.filename}`); }
-    if (coverPicFile)           { query += ', cover_pic = ?';   params.push(`/uploads/${coverPicFile.filename}`);   }
+    if (profilePicFile)         { query += ', profile_pic = ?'; params.push(profilePicFile.path); }
+    if (coverPicFile)           { query += ', cover_pic = ?';   params.push(coverPicFile.path);   }
 
     query += ' WHERE id = ?';
     params.push(userId);
@@ -115,8 +115,7 @@ exports.removeProfilePic = async (req, res) => {
 
     // Delete physical file if not default
     if (row?.profile_pic && !row.profile_pic.includes('default.png')) {
-      const filePath = path.join(__dirname, '..', row.profile_pic);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      // With Cloudinary, we skip local fs deletion. You could optionally use cloudinary.uploader.destroy here.
     }
 
     await db.query('UPDATE users SET profile_pic = "default.png" WHERE id = ?', [userId]);
@@ -134,8 +133,7 @@ exports.removeCoverPic = async (req, res) => {
     const [[row]] = await db.query('SELECT cover_pic FROM users WHERE id = ?', [userId]);
 
     if (row?.cover_pic) {
-      const filePath = path.join(__dirname, '..', row.cover_pic);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      // Skip local fs deletion for Cloudinary.
     }
 
     await db.query('UPDATE users SET cover_pic = NULL WHERE id = ?', [userId]);
