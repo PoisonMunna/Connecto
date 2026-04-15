@@ -13,8 +13,8 @@ exports.createPost = async (req, res) => {
       return res.status(400).json({ error: 'Post content cannot be empty.' });
     }
 
-    // If an image was uploaded via multer, req.file will exist
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+    // If an image was uploaded via multer-storage-cloudinary, req.file.path holds the Cloudinary URL
+    const imageUrl = req.file ? req.file.path : null;
 
     const [result] = await db.query(
       'INSERT INTO posts (user_id, content, image_url) VALUES (?, ?, ?)',
