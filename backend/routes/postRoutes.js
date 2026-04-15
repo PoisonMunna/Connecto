@@ -8,12 +8,17 @@ const path        = require('path');
 const verifyToken = require('../middleware/auth');
 const postCtrl    = require('../controllers/postController');
 
+const { CloudinaryStorage, cloudinary } = require('../config/cloudinary');
+
 // ── Multer config for image uploads ───────────────────────
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
-  filename:    (req, file, cb) => {
-    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'SocialApp/Posts',
+    allowed_formats: ['jpeg', 'jpg', 'png', 'gif', 'webp'],
+    public_id: (req, file) => {
+      return Date.now() + '-' + Math.round(Math.random() * 1e9);
+    }
   }
 });
 
