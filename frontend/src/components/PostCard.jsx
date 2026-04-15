@@ -5,7 +5,7 @@ import { useToast } from '../context/ToastContext';
 import api, { timeAgo, escapeHtml } from '../api/api';
 import Avatar from './Avatar';
 import CommentSection from './CommentSection';
-import { backendUrl } from '../config';  // ← single config, no hardcoded URLs
+import { backendUrl, BLUETICK_URL } from '../config';
 
 export default function PostCard({ post: initialPost, onDelete }) {
   const { user }      = useAuth();
