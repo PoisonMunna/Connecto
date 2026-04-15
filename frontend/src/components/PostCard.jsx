@@ -5,19 +5,19 @@ import { useToast } from '../context/ToastContext';
 import api, { timeAgo, escapeHtml } from '../api/api';
 import Avatar from './Avatar';
 import CommentSection from './CommentSection';
-import { backendUrl, BLUETICK_URL } from '../config';
+import { backendUrl, BLUETICK_URL } from '../config';  // ← single config, no hardcoded URLs
 
 export default function PostCard({ post: initialPost, onDelete }) {
-  const { user }      = useAuth();
+  const { user } = useAuth();
   const { showToast } = useToast();
 
-  const [post,         setPost]         = useState(initialPost);
-  const [menuOpen,     setMenuOpen]     = useState(false);
+  const [post, setPost] = useState(initialPost);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [commentsOpen, setCommentsOpen] = useState(false);
-  const [liking,       setLiking]       = useState(false);
+  const [liking, setLiking] = useState(false);
 
   const isOwner = post.user_id === user?.id;
-  const liked   = post.liked_by_me > 0;
+  const liked = post.liked_by_me > 0;
 
   async function toggleLike() {
     if (liking) return;
@@ -54,7 +54,7 @@ export default function PostCard({ post: initialPost, onDelete }) {
                             transition-colors truncate flex items-center gap-1">
               {post.username}
               {!!post.is_verified
-                ? <span title="Verified account" className="text-blue-500 text-xs">🔵</span>
+                ? <img src={BLUETICK_URL} alt="Verified" title="Verified account" className="inline-block w-4 h-4 ml-1" />
                 : null}
             </div>
             <div className="text-xs text-slate-500">⏱ {timeAgo(post.created_at)}</div>
