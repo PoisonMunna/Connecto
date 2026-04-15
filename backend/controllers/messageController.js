@@ -52,14 +52,15 @@ exports.getConversations = async (req, res) => {
 
 // ── GET /api/messages/unread/count ───────────────────────────
 exports.getUnreadCount = async (req, res) => {
-  const me = req.user.id;
   try {
+    const me = req.user.id; // ✅ now caught if req.user is undefined
     const [rows] = await db.query(
       'SELECT COUNT(*) AS count FROM messages WHERE receiver_id = ? AND is_read = 0',
       [me]
     );
     res.json({ count: rows[0].count });
   } catch (err) {
+    console.error('getUnreadCount error:', err.message); // 👈 add this to see exact error in Vercel logs
     res.status(500).json({ error: 'Could not get count.' });
   }
 };
