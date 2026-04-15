@@ -6,13 +6,19 @@ const path        = require('path');
 const verifyToken = require('../middleware/auth');
 const userCtrl    = require('../controllers/userController');
 
+const { CloudinaryStorage, cloudinary } = require('../config/cloudinary');
+
 // Store uploads with unique filenames keyed by user id + field name
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
-  filename:    (req, file, cb) => {
-    const prefix = file.fieldname === 'cover_pic' ? 'cover' : 'pfp';
-    cb(null, `${prefix}-${req.user.id}${path.extname(file.originalname)}`);
-  },
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'SocialApp/Profiles',
+    allowed_formats: ['jpeg', 'jpg', 'png', 'gif', 'webp'],
+    public_id: (req, file) => {
+      const prefix = file.fieldname === 'cover_pic' ? 'cover' : 'pfp';
+      return `${prefix}-${req.user.id}`;
+    }
+  }
 });
 const upload = multer({
   storage,
