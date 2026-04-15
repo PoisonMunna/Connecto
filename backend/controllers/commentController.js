@@ -26,8 +26,8 @@ exports.addComment = async (req, res) => {
     // Notify post owner
     if (post[0].user_id !== userId) {
       await db.query(
-        'INSERT INTO notifications (user_id, from_user, type, post_id) VALUES (?, ?, "comment", ?)',
-        [post[0].user_id, userId, postId]
+        'INSERT INTO notifications (user_id, from_user, type, post_id) VALUES (?, ?, ?, ?)',
+        [post[0].user_id, userId, 'comment', postId]
       );
     }
 
@@ -41,7 +41,7 @@ exports.addComment = async (req, res) => {
 
     res.status(201).json({ message: 'Comment added!', comment: newComment[0] });
   } catch (err) {
-    console.error('Add comment error:', err);
+    console.error('Add comment error:', err.message);
     res.status(500).json({ error: 'Could not add comment.' });
   }
 };
