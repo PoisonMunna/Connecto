@@ -6,7 +6,7 @@ import api, { escapeHtml } from '../api/api';
 import Avatar from '../components/Avatar';
 import PostCard from '../components/PostCard';
 import Spinner from '../components/Spinner';
-import { backendUrl as imgSrc } from '../config';  // ← single config, no hardcoded URLs
+import { backendUrl as imgSrc, BLUETICK_URL } from '../config';  // ← single config, no hardcoded URLs
 
 export default function ProfilePage() {
   const { username }  = useParams();
@@ -134,10 +134,11 @@ export default function ProfilePage() {
             <div className="flex-1 min-w-0">
               <Link to={`/profile/${u.username}`}
                 className="font-semibold text-slate-800 dark:text-slate-100
-                           hover:text-blue-600 dark:hover:text-blue-400 transition-colors no-underline block truncate">
-                {escapeHtml(u.username)}
+                           hover:text-blue-600 dark:hover:text-blue-400 transition-colors no-underline flex items-center gap-1 w-full">
+                <span className="truncate">{escapeHtml(u.username)}</span>
+                {!!u.is_verified ? <img src={BLUETICK_URL} alt="Verified" title="Verified account" className="inline-block w-4 h-4 flex-shrink-0" /> : null}
               </Link>
-              <div className="text-xs text-slate-500 truncate">{escapeHtml(u.bio || 'No bio yet')}</div>
+              <div className="text-xs text-slate-500 line-clamp-2 mt-0.5 whitespace-pre-wrap break-words">{escapeHtml(u.bio || 'No bio yet')}</div>
             </div>
           </div>
         ))}
@@ -290,10 +291,10 @@ export default function ProfilePage() {
 
           {/* Username + bio */}
           <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
-            {escapeHtml(profile.username)}
-            {!!profile.is_verified ? <span title="Verified" className="text-blue-500 text-xl">🔵</span> : null}
+            <span className="truncate">{escapeHtml(profile.username)}</span>
+            {!!profile.is_verified ? <img src={BLUETICK_URL} alt="Verified" title="Verified account" className="inline-block w-6 h-6 flex-shrink-0" /> : null}
           </h1>
-          <p className="text-sm text-slate-500 mt-1 mb-4">{escapeHtml(profile.bio || 'No bio yet.')}</p>
+          <p className="text-sm text-slate-500 mt-1 mb-4 whitespace-pre-wrap break-words">{escapeHtml(profile.bio || 'No bio yet.')}</p>
 
           {/* Stats */}
           <div className="flex gap-6">
