@@ -11,7 +11,7 @@
 
 **A feature-rich, modern social media platform with real-time messaging, admin control panel, Google authentication, and a beautiful responsive UI.**
 
-[Live Demo](#) · [Report Bug](#) · [Request Feature](#)
+[Live Demo](https://connecto-psi.vercel.app)
 
 </div>
 
