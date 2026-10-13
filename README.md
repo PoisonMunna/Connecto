@@ -1,4 +1,4 @@
-# 🌐 SocialApp — Full-Stack Social Media Platform
+# 🌐 SocialApp — Full-Stack Social Media Platform.  
 
 <div align="center">
 
